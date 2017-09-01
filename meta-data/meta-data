@@ -1,0 +1,17 @@
+#cloud-config
+
+users:
+  - default
+  - name: foo
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    ssh-import-id: None
+    lock_passwd: true
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCgbgH793BRMcKNqh4YJ6+704tHKAOkLp8B/JUZ/Q3Dr+5AoYg3QHMVeCz3MRkPP75QG/g/8ypdaRO6lRjwuuNy7Qy9fV1ipd460s54bidfQOgnbvZc1FyoDN2gqBtPQe3AgyfNOJNlfqFE93dbaC21j7rrfvlM2Sat0wttv0uACZrI7P9O9izzjUQZUeYZuiuJC7HNuuh2LyF4r3eLgDp6IfFSZjWPNBMH/+4GZ633tPJMAMdRS9X9aIaR9aindAQK2HdON6/AWtLt1kuqPxB5pjtT1zwWVkrkIMOViiHZR1KMXfLFtBrms2Y/N5J3S+x4nl1psGnAWbsOD7JZHl8b root@localhost.localdomain
+
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCgbgH793BRMcKNqh4YJ6+704tHKAOkLp8B/JUZ/Q3Dr+5AoYg3QHMVeCz3MRkPP75QG/g/8ypdaRO6lRjwuuNy7Qy9fV1ipd460s54bidfQOgnbvZc1FyoDN2gqBtPQe3AgyfNOJNlfqFE93dbaC21j7rrfvlM2Sat0wttv0uACZrI7P9O9izzjUQZUeYZuiuJC7HNuuh2LyF4r3eLgDp6IfFSZjWPNBMH/+4GZ633tPJMAMdRS9X9aIaR9aindAQK2HdON6/AWtLt1kuqPxB5pjtT1zwWVkrkIMOViiHZR1KMXfLFtBrms2Y/N5J3S+x4nl1psGnAWbsOD7JZHl8b root@localhost.localdomain
+
+runcmd:
+  - echo hello from runcmd

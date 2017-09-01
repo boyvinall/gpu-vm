@@ -1,0 +1,136 @@
+<domain type='kvm' id='49'>
+  <name>instance-00000050</name>
+  <uuid>a316aabf-3c11-4852-93cb-48a658f40622</uuid>
+  <metadata>
+    <nova:instance xmlns:nova="http://openstack.org/xmlns/libvirt/nova/1.0">
+      <nova:package version="15.0.6-1.el7"/>
+      <nova:name>gpu-one</nova:name>
+      <nova:creationTime>2017-08-31 12:43:18</nova:creationTime>
+      <nova:flavor name="m1.medium.gtx1080">
+        <nova:memory>4096</nova:memory>
+        <nova:disk>40</nova:disk>
+        <nova:swap>0</nova:swap>
+        <nova:ephemeral>0</nova:ephemeral>
+        <nova:vcpus>2</nova:vcpus>
+      </nova:flavor>
+      <nova:owner>
+        <nova:user uuid="38ba5646460c4596ac92c5d448d044ee">admin</nova:user>
+        <nova:project uuid="497053b57ac14ff1a7c6511173a32fa9">admin</nova:project>
+      </nova:owner>
+      <nova:root type="image" uuid="ec968d5d-a74f-4828-a824-49017b3d73a5"/>
+    </nova:instance>
+  </metadata>
+  <memory unit='KiB'>4194304</memory>
+  <currentMemory unit='KiB'>4194304</currentMemory>
+  <vcpu placement='static'>2</vcpu>
+  <cputune>
+    <shares>2048</shares>
+  </cputune>
+  <resource>
+    <partition>/machine</partition>
+  </resource>
+  <sysinfo type='smbios'>
+    <system>
+      <entry name='manufacturer'>RDO</entry>
+      <entry name='product'>OpenStack Compute</entry>
+      <entry name='version'>15.0.6-1.el7</entry>
+      <entry name='serial'>00000000-0000-0040-8000-1c1b0db21ff4</entry>
+      <entry name='uuid'>a316aabf-3c11-4852-93cb-48a658f40622</entry>
+      <entry name='family'>Virtual Machine</entry>
+    </system>
+  </sysinfo>
+  <os>
+    <type arch='x86_64' machine='pc-i440fx-rhel7.3.0'>hvm</type>
+    <boot dev='hd'/>
+    <smbios mode='sysinfo'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+  </features>
+  <cpu mode='host-model'>
+    <model fallback='allow'/>
+    <topology sockets='2' cores='1' threads='1'/>
+  </cpu>
+  <clock offset='utc'>
+    <timer name='pit' tickpolicy='delay'/>
+    <timer name='rtc' tickpolicy='catchup'/>
+    <timer name='hpet' present='no'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <emulator>/usr/libexec/qemu-kvm</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' cache='none'/>
+      <source file='/var/lib/nova/instances/a316aabf-3c11-4852-93cb-48a658f40622/disk'/>
+      <backingStore type='file' index='1'>
+        <format type='raw'/>
+        <source file='/var/lib/nova/instances/_base/42640288148069fa9f6d59aee4d8acc7e66a6e3b'/>
+        <backingStore/>
+      </backingStore>
+      <target dev='vda' bus='virtio'/>
+      <alias name='virtio-disk0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
+    </disk>
+    <controller type='usb' index='0'>
+      <alias name='usb'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x2'/>
+    </controller>
+    <controller type='pci' index='0' model='pci-root'>
+      <alias name='pci.0'/>
+    </controller>
+    <interface type='bridge'>
+      <mac address='fa:16:3e:ea:2a:25'/>
+      <source bridge='qbr0cd42430-29'/>
+      <target dev='tap0cd42430-29'/>
+      <model type='virtio'/>
+      <alias name='net0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
+    </interface>
+    <serial type='file'>
+      <source path='/var/lib/nova/instances/a316aabf-3c11-4852-93cb-48a658f40622/console.log'/>
+      <target port='0'/>
+      <alias name='serial0'/>
+    </serial>
+    <serial type='pty'>
+      <source path='/dev/pts/7'/>
+      <target port='1'/>
+      <alias name='serial1'/>
+    </serial>
+    <console type='file'>
+      <source path='/var/lib/nova/instances/a316aabf-3c11-4852-93cb-48a658f40622/console.log'/>
+      <target type='serial' port='0'/>
+      <alias name='serial0'/>
+    </console>
+    <input type='tablet' bus='usb'>
+      <alias name='input0'/>
+      <address type='usb' bus='0' port='1'/>
+    </input>
+    <input type='mouse' bus='ps2'>
+      <alias name='input1'/>
+    </input>
+    <input type='keyboard' bus='ps2'>
+      <alias name='input2'/>
+    </input>
+    <hostdev mode='subsystem' type='pci' managed='yes'>
+      <driver name='vfio'/>
+      <source>
+        <address domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+      </source>
+      <alias name='hostdev0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
+    </hostdev>
+    <memballoon model='virtio'>
+      <stats period='10'/>
+      <alias name='balloon0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
+    </memballoon>
+  </devices>
+  <seclabel type='none' model='none'/>
+  <seclabel type='dynamic' model='dac' relabel='yes'>
+    <label>+42427:+42427</label>
+    <imagelabel>+42427:+42427</imagelabel>
+  </seclabel>
+</domain>
