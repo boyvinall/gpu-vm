@@ -1,4 +1,4 @@
-<domain type='kvm' id='49'>
+<domain type='kvm' id='49' >
   <name>instance-00000050</name>
   <uuid>a316aabf-3c11-4852-93cb-48a658f40622</uuid>
   <metadata>

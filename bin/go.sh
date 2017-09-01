@@ -2,4 +2,3 @@
 ./config.sh
 ./create.sh
 
-virsh console centos

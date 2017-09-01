@@ -1,25 +1,49 @@
-<domain type='kvm' id='11'>
+<domain type='kvm' id='11' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <!-- <qemu:commandline>
+    <qemu:arg value='vfio-pci,host=04:00.0,bus=pci.0,multifunction=on,x-vga=on,romfile=/var/opt/libvirt/bin/gpu.rom'/>
+  </qemu:commandline> -->
   <name>centos</name>
   <uuid>31bac81f-03e8-4568-ae23-248119570a94</uuid>
-  <memory unit='KiB'>2097152</memory>
-  <currentMemory unit='KiB'>2097152</currentMemory>
+  <memory unit='KiB'>8388608</memory>
+  <currentMemory unit='KiB'>8388608</currentMemory>
   <vcpu placement='static'>2</vcpu>
   <resource>
     <partition>/machine</partition>
   </resource>
+  <!-- <sysinfo type='smbios'>
+    <system>
+      <entry name='manufacturer'>RDO</entry>
+      <entry name='product'>OpenStack Compute</entry>
+      <entry name='version'>15.0.6-1.el7</entry>
+      <entry name='serial'>00000000-0000-0040-8000-1c1b0db21ff4</entry>
+      <entry name='uuid'>31bac81f-03e8-4568-ae23-248119570a94</entry>
+      <entry name='family'>Virtual Machine</entry>
+    </system>
+  </sysinfo> -->
   <os>
     <type arch='x86_64' machine='pc-i440fx-rhel7.0.0'>hvm</type>
-    <boot dev='hd'/>
+    <loader>/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd</loader>
+    <nvram template='/usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd' />
+    <bootmenu enable='yes' timeout='3000'/>
+    <!-- <boot dev='hd'/>
+    <smbios mode='sysinfo'/> -->
   </os>
   <features>
     <acpi/>
     <apic/>
-      <kvm>
-        <hidden state='on'/>
-      </kvm>
+    <!-- <hyperv>
+      <relaxed state='on'/>
+      <vapic state='on'/>
+      <spinlocks state='on' retries='8191'/>
+      <vendor id='none'/>
+    </hyperv> -->
+    <kvm>
+      <hidden state='on'/>
+    </kvm>
   </features>
-  <cpu mode='custom' match='exact'>
-    <model fallback='allow'>Broadwell</model>
+  <cpu mode='host-model'>
+    <model fallback='allow'/>
+    <topology sockets='2' cores='1' threads='1'/>
   </cpu>
   <clock offset='utc'>
     <timer name='rtc' tickpolicy='catchup'/>
@@ -34,7 +58,7 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <emulator>/usr/libexec/qemu-kvm</emulator>
+    <panic/>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
       <source file='/var/opt/libvirt/vm/centos'/>
@@ -45,32 +69,22 @@
     </disk>
     <disk type='file' device='cdrom'>
       <driver name='qemu' type='raw'/>
-      <source file='/var/opt/libvirt/meta-data/config.iso'/>
+      <source file='/var/opt/libvirt/iso/SW_DVD5_Win_Pro_10_1607_64BIT_English_MLF_X21-06988.ISO'/>
       <backingStore/>
       <target dev='hda' bus='ide'/>
       <readonly/>
       <alias name='ide0-0-0'/>
       <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
-    <!-- <controller type='usb' index='0' model='ich9-ehci1'>
-      <alias name='usb'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x7'/>
-    </controller>
-    <controller type='usb' index='0' model='ich9-uhci1'>
-      <alias name='usb'/>
-      <master startport='0'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0' multifunction='on'/>
-    </controller>
-    <controller type='usb' index='0' model='ich9-uhci2'>
-      <alias name='usb'/>
-      <master startport='2'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x1'/>
-    </controller>
-    <controller type='usb' index='0' model='ich9-uhci3'>
-      <alias name='usb'/>
-      <master startport='4'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x2'/>
-    </controller> -->
+    <!-- <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='/var/opt/libvirt/meta-data/config.iso'/>
+      <backingStore/>
+      <target dev='hda' bus='ide'/>
+      <readonly/>
+      <alias name='ide0-0-0'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
+    </disk> -->
     <controller type='pci' index='0' model='pci-root'>
       <alias name='pci.0'/>
     </controller>
@@ -110,66 +124,64 @@
       <target type='virtio' name='com.redhat.spice.0' state='disconnected'/>
       <alias name='channel1'/>
       <address type='virtio-serial' controller='0' bus='0' port='2'/>
-    </channel>
-    <input type='tablet' bus='usb'>
+    </channel> -->
+    <!-- <input type='tablet' bus='usb'>
       <alias name='input0'/>
       <address type='usb' bus='0' port='1'/>
-    </input>
-    <input type='mouse' bus='ps2'>
-      <alias name='input1'/>
     </input> -->
     <input type='keyboard' bus='ps2'>
       <alias name='input2'/>
     </input>
-    <graphics type='spice' port='5900' autoport='yes' listen='127.0.0.1'>
+    <!-- <graphics type='spice' port='5900' autoport='yes' listen='127.0.0.1'>
       <listen type='address' address='127.0.0.1'/>
       <image compression='off'/>
     </graphics>
-    <!-- <sound model='ich6'>
-      <alias name='sound0'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
-    </sound> -->
     <video>
       <model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1' primary='yes'/>
       <alias name='video0'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
-    </video>
-    <!-- <redirdev bus='usb' type='spicevmc'>
-      <alias name='redir0'/>
-      <address type='usb' bus='0' port='2'/>
-    </redirdev> -->
-    <!-- <redirdev bus='usb' type='spicevmc'>
-      <alias name='redir1'/>
-      <address type='usb' bus='0' port='3'/>
-    </redirdev> -->
+    </video> -->
     <hostdev mode='subsystem' type='pci' managed='yes'>
-      <!-- <driver name='vfio'/> -->
+      <driver name='vfio'/>
       <source>
         <address domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
       </source>
       <alias name='hostdev0'/>
       <rom bar='on' file='/var/opt/libvirt/bin/gpu.rom'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x09' function='0x0'/>
+      <!-- <rom file='/var/opt/libvirt/bin/gpu.rom'/> -->
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
     </hostdev>
     <hostdev mode='subsystem' type='pci' managed='yes'>
-      <!-- <driver name='vfio'/> -->
+      <driver name='vfio'/>
       <source>
         <address domain='0x0000' bus='0x04' slot='0x00' function='0x1'/>
       </source>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x09' function='0x1'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x1'/>
     </hostdev>
     <!-- <memballoon model='virtio'>
       <alias name='balloon0'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x08' function='0x0'/>
     </memballoon> -->
   </devices>
-  <seclabel type='dynamic' model='selinux' relabel='yes'>
+  <!-- <seclabel type='dynamic' model='selinux' relabel='yes'>
     <label>system_u:system_r:svirt_t:s0:c473,c487</label>
     <imagelabel>system_u:object_r:svirt_image_t:s0:c473,c487</imagelabel>
   </seclabel>
   <seclabel type='dynamic' model='dac' relabel='yes'>
     <label>+107:+107</label>
     <imagelabel>+107:+107</imagelabel>
-  </seclabel>
+  </seclabel> -->
+  <qemu:commandline>
+    <!-- <qemu:arg value='-bios'/>
+    <qemu:arg value='/usr/share/seabios.git/bios.bin'/> -->
+    <!-- <qemu:arg value='-device'/>
+    <qemu:arg value='vfio-pci,host=04:00.0,id=hostdev0,bus=pci.0,multifunction=on,x-vga=on,romfile=/var/opt/libvirt/bin/gpu.rom'/>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='vfio-pci,host=04:00.1,id=hostdev1,bus=pci.0,addr=0x4.0x1'/> -->
+    <!-- <qemu:arg value='-set'/>
+    <qemu:arg value='device.hostdev0.x-vga=on'/> -->
+    <qemu:arg value='-set'/>
+    <qemu:arg value='device.hostdev0.multifunction=on'/>
+  </qemu:commandline>
 </domain>
 
