@@ -1,1 +1,1 @@
-rsync -avz --exclude=mnt ./ root@cn:/var/opt/libvirt/
+rsync -avz "$@" --exclude=mnt --exclude=.git ./ root@cn:/var/opt/libvirt/

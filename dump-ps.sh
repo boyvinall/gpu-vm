@@ -1,0 +1,1 @@
+cat /proc/$(pgrep -f qemu-kvm)/cmdline | xargs -0 -L1 echo | gawk 'BEGIN { option=""; }; /^-/ { if (option != "") { print option }; option=$0 }; /^[^-]/ { print option " " $0; option="" };'
